@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GEN WISE LANGUAGE HUB</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700&family=Montserrat:wght@700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Giữ nguyên toàn bộ CSS như file gốc */
+        body {
+            margin: 0;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #FFF9E6, #FFE4B5, #FFFFFF);
+            font-family: 'Poppins', sans-serif;
+            color: #000000;
+            overflow-x: hidden;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        nav {
+            background: linear-gradient(135deg, #FFD700, #FF8C00);
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-radius: 15px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+            margin-bottom: 20px;
+            position: sticky;
+            top: 6px;
+            z-index: 1000;
+        }
+        nav .logo {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
+            font-size: 20px;
+            color: #FFFFFF;
+            letter-spacing: 1px;
+        }
+        .nav-links {
+            display: flex;
+            gap: 1.5rem;
+            align-items: center;
+        }
+        .nav-links a {
+            text-decoration: none;
+            color: #FFFFFF;
+            font-weight: 500;
+            font-size: 16px;
+            padding: 8px 15px;
+            border-radius: 20px;
+            transition: background 0.3s ease, color 0.3s ease, transform 0.2s ease;
+        }
+        .nav-links a:hover {
+            background: rgba(255, 255, 255, 0.2);
+            color: #FFF9E6;
+            transform: translateY(-2px);
+        }
+        .nav-toggle {
+            display: none;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 10px;
+        }
+        .nav-toggle span,
+        .nav-toggle span::before,
+        .nav-toggle span::after {
+            display: block;
+            background: #FFFFFF;
+            height: 3px;
+            width: 25px;
+            border-radius: 3px;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+        .nav-toggle span::before,
+        .nav-toggle span::after {
+            content: '';
+            position: absolute;
+            left: 0;
+        }
+        .nav-toggle span::before { top: -8px; }
+        .nav-toggle span::after { top: 8px; }
+        .nav-toggle.open span { background: transparent; }
+        .nav-toggle.open span::before { transform: rotate(45deg) translate(5px, 5px); }
+        .nav-toggle.open span::after { transform: rotate(-45deg) translate(5px, -5px); }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                position: absolute; top: 70px; right: 20px;
+                background: linear-gradient(135deg, #FFD700, #FF8C00);
+                flex-direction: column; align-items: flex-start; padding: 1.5rem;
+                border-radius: 15px; box-shadow: 0 8px 16px rgba(0,0,0,.2); display: none; width: 200px;
+            }
+            .nav-links.open { display: flex; }
+            .nav-links a { width: 100%; text-align: center; padding: 10px; font-size: 14px; }
+            .nav-toggle { display: block; }
+        }
+
+        h1 { font-family: 'Montserrat', sans-serif; font-size: 36px; font-weight: 700; color: #000; margin-bottom: .2rem; text-align: center; }
+        h2 { font-family: 'Poppins', sans-serif; font-size: 24px; font-weight: 500; color: #000; margin-top: .2rem; margin-bottom: 1.8rem; text-align: center; }
+
+        .unit-list { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
+        .unit {
+            background: linear-gradient(135deg, #FFF9E6, #FFE4B5, #FFFFFF);
+            padding: 2rem; border-radius: 15px; border: 2px solid #FFD700;
+            box-shadow: 0 6px 12px rgba(0,0,0,.1); cursor: pointer;
+            transition: transform .3s, box-shadow .3s; text-align: center; position: relative; overflow: hidden;
+            display: flex; flex-direction: column; justify-content: space-between; 
+        }
+        .unit:hover { transform: scale(1.03); box-shadow: 0 8px 16px rgba(0,0,0,.15); }
+
+        .zodiac-box {
+            position: relative; width: 80px; height: 80px; margin: 0 auto 1rem;
+            background: linear-gradient(135deg, #FFD700, #FF8C00); border-radius: 12px;
+            display: flex; align-items: center; justify-content: center;
+            font-family: 'Montserrat', sans-serif; font-size: 28px; font-weight: 700; color: #FFF;
+            box-shadow: 0 4px 8px rgba(0,0,0,.2); overflow: hidden;
+        }
+        .theme-icon {
+            position: absolute; font-size: 28px; color: rgba(255,255,255,0.7);
+            animation: pulse 2s infinite ease-in-out;
+        }
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 0.7; }
+            50% { transform: scale(1.2); opacity: 1; }
+        }
+
+        .unit a { text-decoration: none; color: #000; font-family: 'Poppins', sans-serif; font-size: 18px; font-weight: 700; display: block; }
+        .unit a:hover { color: #FF8C00; }
+        .unit p { font-family: 'Poppins', sans-serif; font-size: 16px; color: #333; margin: .5rem 0; }
+        .unit-icon, .vocab-icon { color: #FF8C00; margin-right: 8px; font-size: 20px; vertical-align: middle; }
+        .vocabulary { display: flex; align-items: center; justify-content: center; margin-top: 10px; }
+        .vocabulary a { font-family: 'Poppins', sans-serif; font-size: 16px; font-weight: 500; color: #FF8C00; text-transform: uppercase; text-decoration: none; }
+        .vocabulary a:hover { color: #FFD700; }
+
+        .game-section {
+            margin-top: 1.5rem;
+            border-top: 1px solid rgba(255, 140, 0, 0.3);
+            padding-top: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            align-items: center;
+        }
+
+        .game-link, .dialogue-link {
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 80%;
+            padding: 10px 25px;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 16px;
+            font-weight: 700;
+            color: #FFFFFF;
+            text-transform: uppercase;
+            text-decoration: none;
+            border-radius: 5px;
+            box-shadow: 0 4px 15px rgba(255, 140, 0, 0.6);
+            transition: all 0.3s ease;
+        }
+        .game-link {
+            background: linear-gradient(45deg, #FF8C00, #FFD700);
+        }
+        .dialogue-link {
+            background: linear-gradient(45deg, #00C9FF, #92FE9D);
+            animation: pulse-glow 2s infinite alternate;
+        }
+        .game-link:hover, .dialogue-link:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 25px rgba(255, 140, 0, 1);
+        }
+        .game-icon { margin-right: 10px; font-size: 20px; color: #FFFFFF; }
+    </style>
+</head>
+<body>
+<div class="container">
+    <nav>
+        <div class="logo">GEN WISE LANGUAGE HUB</div>
+        <button class="nav-toggle" aria-label="Toggle navigation"><span></span></button>
+        <div class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="gioi thieu.html">About</a>
+            <a href="contact.html">Contact</a>
+        </div>
+    </nav>
+
+    <h1>GEN WISE LANGUAGE HUB</h1>
+    <h2>Learning Units</h2>
+
+    <div class="unit-list">
+
+        <!-- Unit 1 -->
+        <div class="unit">
+            <div>
+                <div class="zodiac-box"><span>1</span><i class="fas fa-handshake theme-icon" style="top:8px;right:8px;"></i></div>
+                <a href="units/UNIT 1/full.html"><i class="fas fa-handshake unit-icon"></i>Unit 1: Greetings and Well Wishes</a>
+                <p>Chào hỏi và Lời chúc</p>
+                <div class="vocabulary"><i class="fas fa-book vocab-icon"></i><a href="units/UNIT 1/vocabulary.html">VOCABULARY</a></div>
+            </div>
+            <div class="game-section">
+                <a href="units/UNIT 1/game.html" class="game-link"><i class="fas fa-handshake game-icon"></i>Game</a>
+                <a href="units/UNIT 1/dialogue.html" class="dialogue-link"><i class="fas fa-comments game-icon"></i>Dialogue Practice</a>
+            </div>
+        </div>
+
+        <!-- Unit 2 đến Unit 24 (đã chuẩn hóa) -->
+        <!-- Unit 2 -->
+        <div class="unit">
+            <div>
+                <div class="zodiac-box"><span>2</span><i class="fas fa-user-plus theme-icon" style="top:8px;right:8px;"></i></div>
+                <a href="units/UNIT 2/full.html"><i class="fas fa-user-plus unit-icon"></i>Unit 2: Introducing Yourself</a>
+                <p>Giới thiệu bản thân</p>
+                <div class="vocabulary"><i class="fas fa-book vocab-icon"></i><a href="units/UNIT 2/vocabulary.html">VOCABULARY</a></div>
+            </div>
+            <div class="game-section">
+                <a href="units/UNIT 2/game.html" class="game-link"><i class="fas fa-user-plus game-icon"></i>Game</a>
+                <a href="units/UNIT 2/dialogue.html" class="dialogue-link"><i class="fas fa-comments game-icon"></i>Dialogue Practice</a>
+            </div>
+        </div>
+
+        <!-- Unit 3 -->
+        <div class="unit">
+            <div>
+                <div class="zodiac-box"><span>3</span><i class="fas fa-calculator theme-icon" style="top:8px;right:8px;"></i></div>
+                <a href="units/UNIT 3/full.html"><i class="fas fa-calculator unit-icon"></i>Unit 3: Numbers and Ordinal Numbers</a>
+                <p>Số đếm và số thứ tự</p>
+                <div class="vocabulary"><i class="fas fa-book vocab-icon"></i><a href="units/UNIT 3/vocabulary.html">VOCABULARY</a></div>
+            </div>
+            <div class="game-section">
+                <a href="units/UNIT 3/game.html" class="game-link"><i class="fas fa-calculator game-icon"></i>Game</a>
+                <a href="units/UNIT 3/dialogue.html" class="dialogue-link"><i class="fas fa-comments game-icon"></i>Dialogue Practice</a>
+            </div>
+        </div>
+
+        <!-- Unit 4 -->
+        <div class="unit">
+            <div>
+                <div class="zodiac-box"><span>4</span><i class="fas fa-users theme-icon" style="top:8px;right:8px;"></i></div>
+                <a href="units/UNIT 4/full.html"><i class="fas fa-users unit-icon"></i>Unit 4: Family and Friends</a>
+                <p>Gia đình và bạn bè</p>
+                <div class="vocabulary"><i class="fas fa-book vocab-icon"></i><a href="units/UNIT 4/vocabulary.html">VOCABULARY</a></div>
+            </div>
+            <div class="game-section">
+                <a href="units/UNIT 4/game.html" class="game-link"><i class="fas fa-users game-icon"></i>Game</a>
+                <a href="units/UNIT 4/dialogue.html" class="dialogue-link"><i class="fas fa-comments game-icon"></i>Dialogue Practice</a>
+            </div>
+        </div>
+
+        <!-- Unit 5 -->
+        <div class="unit">
+            <div>
+                <div class="zodiac-box"><span>5</span><i class="fas fa-briefcase theme-icon" style="top:8px;right:8px;"></i></div>
+                <a href="units/UNIT 5/full.html"><i class="fas fa-briefcase unit-icon"></i>Unit 5: Professions</a>
+                <p>Nghề nghiệp</p>
+                <div class="vocabulary"><i class="fas fa-book vocab-icon"></i><a href="units/UNIT 5/vocabulary.html">VOCABULARY</a></div>
+            </div>
+            <div class="game-section">
+                <a href="units/UNIT 5/game.html" class="game-link"><i class="fas fa-briefcase game-icon"></i>Game</a>
+                <a href="units/UNIT 5/dialogue.html" class="dialogue-link"><i class="fas fa-comments game-icon"></i>Dialogue Practice</a>
+            </div>
+        </div>
+
+        <!-- Unit 6 -->
+        <div class="unit">
+            <div>
+                <div class="zodiac-box"><span>6</span><i class="fas fa-map-signs theme-icon" style="top:8px;right:8px;"></i></div>
+                <a href="units/UNIT 6/full.html"><i class="fas fa-map-signs unit-icon"></i>Unit 6: Asking for Directions</a>
+                <p>Hỏi đường và chỉ dẫn</p>
+                <div class="vocabulary"><i class="fas fa-book vocab-icon"></i><a href="units/UNIT 6/vocabulary.html">VOCABULARY</a></div>
+            </div>
+            <div class="game-section">
+                <a href="units/UNIT 6/game.html" class="game-link"><i class="fas fa-map-signs game-icon"></i>Game</a>
+                <a href="units/UNIT 6/dialogue.html" class="dialogue-link"><i class="fas fa-comments game-icon"></i>Dialogue Practice</a>
+            </div>
+        </div>
+
+        <!-- Unit 7 -->
+        <div class="unit">
+            <div>
+                <div class="zodiac-box"><span>7</span><i class="fas fa-calendar-day theme-icon" style="top:8px;right:8px;"></i></div>
+                <a href="units/UNIT 7/full.html"><i class="fas fa-calendar-day unit-icon"></i>Unit 7: Daily Activities</a>
+                <p>Hoạt động hằng ngày</p>
+                <div class="vocabulary"><i class="fas fa-book vocab-icon"></i><a href="units/UNIT 7/vocabulary.html">VOCABULARY</a></div>
+            </div>
+            <div class="game-section">
+                <a href="units/UNIT 7/game.html" class="game-link"><i class="fas fa-calendar-day game-icon"></i>Game</a>
+                <a href="units/UNIT 7/dialogue.html" class="dialogue-link"><i class="fas fa-comments game-icon"></i>Dialogue Practice</a>
+            </div>
+        </div>
+
+        <!-- Unit 8 -->
+        <div class="unit">
+            <div>
+                <div class="zodiac-box"><span>8</span><i class="fas fa-paint-brush theme-icon" style="top:8px;right:8px;"></i></div>
+                <a href="units/UNIT 8/full.html"><i class="fas fa-paint-brush unit-icon"></i>Unit 8: Free Time and Hobbies</a>
+                <p>Thời gian rảnh và sở thích</p>
+                <div class="vocabulary"><i class="fas fa-book vocab-icon"></i><a href="units/UNIT 8/vocabulary.html">VOCABULARY</a></div>
+            </div>
+            <div class="game-section">
+                <a href="units/UNIT 8/game.html" class="game-link"><i class="fas fa-paint-brush game-icon"></i>Game</a>
+                <a href="units/UNIT 8/dialogue.html" class="dialogue-link"><i class="fas fa-comments game-icon"></i>Dialogue Practice</a>
+            </div>
+        </div>
+
+        <!-- Unit 9 -->
+        <div class="unit">
+            <div>
+                <div class="zodiac-box"><span>9</span><i class="fas fa-carrot theme-icon" style="top:8px;right:8px;"></i></div>
+                <a href="units/UNIT 9/full.html"><i class="fas fa-carrot unit-icon"></i>Unit 9: Vegetables and Fruits</a>
+                <p>Rau củ quả và trái cây</p>
+                <div class="vocabulary"><i class="fas fa-book vocab-icon"></i><a href="units/UNIT 9/vocabulary.html">VOCABULARY</a></div>
+            </div>
+            <div class="game-section">
+                <a href="units/UNIT 9/game.html" class="game-link"><i class="fas fa-carrot game-icon"></i>Game</a>
+                <a href="units/UNIT 9/dialogue.html" class="dialogue-link"><i class="fas fa-comments game-icon"></i>Dialogue Practice</a>
+            </div>
+        </div>
+
+        <!-- Unit 10 -->
+        <div class="unit">
+            <div>
+                <div class="zodiac-box"><span>10</span><i class="fas fa-utensils theme-icon" style="top:8px;right:8px;"></i></div>
+                <a href="units/UNIT 10/full.html"><i class="fas fa-utensils unit-icon"></i>Unit 10: Eating Habits</a>
+                <p>Thói quen ăn uống</p>
+                <div class="vocabulary"><i class="fas fa-book vocab-icon"></i><a href="units/UNIT 10/vocabulary.html">VOCABULARY</a></div>
+            </div>
+            <div class="game-section">
+                <a href="units/UNIT 10/game.html" class="game-link"><i class="fas fa-utensils game-icon"></i>Game</a>
+                <a href="units/UNIT 10/dialogue.html" class="dialogue-link"><i class="fas fa-comments game-icon"></i>Dialogue Practice</a>
+            </div>
+        </div>
+
+        <!-- Unit 11 -->
+        <div class="unit">
+            <div>
+                <div class="zodiac-box"><span>11</span><i class="fas fa-shopping-cart theme-icon" style="top:8px;right:8px;"></i></div>
+                <a href="units/UNIT 11/full.html"><i class="fas fa-shopping-cart unit-icon"></i>Unit 11: Shopping and Asking for Prices</a>
+                <p>Mua sắm và hỏi giá</p>
+                <div class="vocabulary"><i class="fas fa-book vocab-icon"></i><a href="units/UNIT 11/vocabulary.html">VOCABULARY</a></div>
+            </div>
+            <div class="game-section">
+                <a href="units/UNIT 11/game.html" class="game-link"><i class="fas fa-shopping-cart game-icon"></i>Game</a>
+                <a href="units/UNIT 11/dialogue.html" class="dialogue-link"><i class="fas fa-comments game-icon"></i>Dialogue Practice</a>
+            </div>
+        </div>
+
+        <!-- Unit 12 -->
+        <div class="unit">
+            <div>
+                <div class="zodiac-box"><span>12</span><i class="fas fa-coffee theme-icon" style="top:8px;right:8px;"></i></div>
+                <a href="units/UNIT 12/full.html"><i class="fas fa-coffee unit-icon"></i>Unit 12: At the Coffee Shop</a>
+                <p>Tại quán cà phê</p>
+                <div class="vocabulary"><i class="fas fa-book vocab-icon"></i><a href="units/UNIT 12/vocabulary.html">VOCABULARY</a></div>
+            </div>
+            <div class="game-section">
+                <a href="units/UNIT 12/game.html" class="game-link"><i class="fas fa-coffee game-icon"></i>Game</a>
+                <a href="units/UNIT 12/dialogue.html" class="dialogue-link"><i class="fas fa-comments game-icon"></i>Dialogue Practice</a>
+            </div>
+        </div>
+
+        <!-- Unit 13 -->
+        <div class="unit">
+            <div>
+                <div class="zodiac-box"><span>13</span><i class="fas fa-concierge-bell theme-icon" style="top:8px;right:8px;"></i></div>
+                <a href="units/UNIT 13/full.html"><i class="fas fa-concierge-bell unit-icon"></i>Unit 13: Making a Reservation at a Restaurant</a>
+                <p>Đặt chỗ trong nhà hàng</p>
+                <div class="vocabulary"><i class="fas fa-book vocab-icon"></i><a href="units/UNIT 13/vocabulary.html">VOCABULARY</a></div>
+            </div>
+            <div class="game-section">
+                <a href="units/UNIT 13/game.html" class="game-link"><i class="fas fa-concierge-bell game-icon"></i>Game</a>
+                <a href="units/UNIT 13/dialogue.html" class="dialogue-link"><i class="fas fa-comments game-icon"></i>Dialogue Practice</a>
+            </div>
+        </div>
+
+        <!-- Unit 14 -->
+        <div class="unit">
+            <div>
+                <div class="zodiac-box"><span>14</span><i class="fas fa-phone theme-icon" style="top:8px;right:8px;"></i></div>
+                <a href="units/UNIT 14/full.html"><i class="fas fa-phone unit-icon"></i>Unit 14: Communication via Phone</a>
+                <p>Giao tiếp qua điện thoại</p>
+                <div class="vocabulary"><i class="fas fa-book vocab-icon"></i><a href="units/UNIT 14/vocabulary.html">VOCABULARY</a></div>
+            </div>
+            <div class="game-section">
+                <a href="units/UNIT 14/game.html" class="game-link"><i class="fas fa-phone game-icon"></i>Game</a>
+                <a href="units/UNIT 14/dialogue.html" class="dialogue-link"><i class="fas fa-comments game-icon"></i>Dialogue Practice</a>
+            </div>
+        </div>
+
+        <!-- Unit 15 -->
+        <div class="unit">
+            <div>
+                <div class="zodiac-box"><span>15</span><i class="fas fa-bus theme-icon" style="top:8px;right:8px;"></i></div>
+                <a href="units/UNIT 15/full.html"><i class="fas fa-bus unit-icon"></i>Unit 15: Basic Transportation</a>
+                <p>Giao thông cơ bản</p>
+                <div class="vocabulary"><i class="fas fa-book vocab-icon"></i><a href="units/UNIT 15/vocabulary.html">VOCABULARY</a></div>
+            </div>
+            <div class="game-section">
+                <a href="units/UNIT 15/game.html" class="game-link"><i class="fas fa-bus game-icon"></i>Game</a>
+                <a href="units/UNIT 15/dialogue.html" class="dialogue-link"><i class="fas fa-comments game-icon"></i>Dialogue Practice</a>
+            </div>
+        </div>
+
+        <!-- Unit 16 -->
+        <div class="unit">
+            <div>
+                <div class="zodiac-box"><span>16</span><i class="fas fa-plane theme-icon" style="top:8px;right:8px;"></i></div>
+                <a href="units/UNIT 16/full.html"><i class="fas fa-plane unit-icon"></i>Unit 16: Traveling</a>
+                <p>Du lịch</p>
+                <div class="vocabulary"><i class="fas fa-book vocab-icon"></i><a href="units/UNIT 16/vocabulary.html">VOCABULARY</a></div>
+            </div>
+            <div class="game-section">
+                <a href="units/UNIT 16/game.html" class="game-link"><i class="fas fa-plane game-icon"></i>Game</a>
+                <a href="units/UNIT 16/dialogue.html" class="dialogue-link"><i class="fas fa-comments game-icon"></i>Dialogue Practice</a>
+            </div>
+        </div>
+
+        <!-- Unit 17 -->
+        <div class="unit">
+            <div>
+                <div class="zodiac-box"><span>17</span><i class="fas fa-shopping-basket theme-icon" style="top:8px;right:8px;"></i></div>
+                <a href="units/UNIT 17/full.html"><i class="fas fa-shopping-basket unit-icon"></i>Unit 17: At the Supermarket</a>
+                <p>Tại siêu thị</p>
+                <div class="vocabulary"><i class="fas fa-book vocab-icon"></i><a href="units/UNIT 17/vocabulary.html">VOCABULARY</a></div>
+            </div>
+            <div class="game-section">
+                <a href="units/UNIT 17/game.html" class="game-link"><i class="fas fa-shopping-basket game-icon"></i>Game</a>
+                <a href="units/UNIT 17/dialogue.html" class="dialogue-link"><i class="fas fa-comments game-icon"></i>Dialogue Practice</a>
+            </div>
+        </div>
+
+        <!-- Unit 18 -->
+        <div class="unit">
+            <div>
+                <div class="zodiac-box"><span>18</span><i class="fas fa-utensils theme-icon" style="top:8px;right:8px;"></i></div>
+                <a href="units/UNIT 18/full.html"><i class="fas fa-utensils unit-icon"></i>Unit 18: At the Restaurant</a>
+                <p>Tại nhà hàng</p>
+                <div class="vocabulary"><i class="fas fa-book vocab-icon"></i><a href="units/UNIT 18/vocabulary.html">VOCABULARY</a></div>
+            </div>
+            <div class="game-section">
+                <a href="units/UNIT 18/game.html" class="game-link"><i class="fas fa-utensils game-icon"></i>Game</a>
+                <a href="units/UNIT 18/dialogue.html" class="dialogue-link"><i class="fas fa-comments game-icon"></i>Dialogue Practice</a>
+            </div>
+        </div>
+
+        <!-- Unit 19 -->
+        <div class="unit">
+            <div>
+                <div class="zodiac-box"><span>19</span><i class="fas fa-futbol theme-icon" style="top:8px;right:8px;"></i></div>
+                <a href="units/UNIT 19/full.html"><i class="fas fa-futbol unit-icon"></i>Unit 19: Sports & Outdoor</a>
+                <p>Thể thao và hoạt động ngoài trời</p>
+                <div class="vocabulary"><i class="fas fa-book vocab-icon"></i><a href="units/UNIT 19/vocabulary.html">VOCABULARY</a></div>
+            </div>
+            <div class="game-section">
+                <a href="units/UNIT 19/game.html" class="game-link"><i class="fas fa-futbol game-icon"></i>Game</a>
+                <a href="units/UNIT 19/dialogue.html" class="dialogue-link"><i class="fas fa-comments game-icon"></i>Dialogue Practice</a>
+            </div>
+        </div>
+
+        <!-- Unit 20 -->
+        <div class="unit">
+            <div>
+                <div class="zodiac-box"><span>20</span><i class="fas fa-calendar-alt theme-icon" style="top:8px;right:8px;"></i></div>
+                <a href="units/UNIT 20/full.html"><i class="fas fa-calendar-alt unit-icon"></i>Unit 20: Weekend Plans</a>
+                <p>Kế hoạch cuối tuần</p>
+                <div class="vocabulary"><i class="fas fa-book vocab-icon"></i><a href="units/UNIT 20/vocabulary.html">VOCABULARY</a></div>
+            </div>
+            <div class="game-section">
+                <a href="units/UNIT 20/game.html" class="game-link"><i class="fas fa-calendar-alt game-icon"></i>Game</a>
+                <a href="units/UNIT 20/dialogue.html" class="dialogue-link"><i class="fas fa-comments game-icon"></i>Dialogue Practice</a>
+            </div>
+        </div>
+
+        <!-- Unit 21 -->
+        <div class="unit">
+            <div>
+                <div class="zodiac-box"><span>21</span><i class="fas fa-heart theme-icon" style="top:8px;right:8px;"></i></div>
+                <a href="units/UNIT 21/full.html"><i class="fas fa-heart unit-icon"></i>Unit 21: Thanks & Apologies</a>
+                <p>Cảm ơn và Xin lỗi</p>
+                <div class="vocabulary"><i class="fas fa-book vocab-icon"></i><a href="units/UNIT 21/vocabulary.html">VOCABULARY</a></div>
+            </div>
+            <div class="game-section">
+                <a href="units/UNIT 21/game.html" class="game-link"><i class="fas fa-heart game-icon"></i>Game</a>
+                <a href="units/UNIT 21/dialogue.html" class="dialogue-link"><i class="fas fa-comments game-icon"></i>Dialogue Practice</a>
+            </div>
+        </div>
+
+        <!-- Unit 22 -->
+        <div class="unit">
+            <div>
+                <div class="zodiac-box"><span>22</span><i class="fas fa-tshirt theme-icon" style="top:8px;right:8px;"></i></div>
+                <a href="units/UNIT 22/full.html"><i class="fas fa-tshirt unit-icon"></i>Unit 22: Clothes Shopping</a>
+                <p>Mua sắm quần áo</p>
+                <div class="vocabulary"><i class="fas fa-book vocab-icon"></i><a href="units/UNIT 22/vocabulary.html">VOCABULARY</a></div>
+            </div>
+            <div class="game-section">
+                <a href="units/UNIT 22/game.html" class="game-link"><i class="fas fa-tshirt game-icon"></i>Game</a>
+                <a href="units/UNIT 22/dialogue.html" class="dialogue-link"><i class="fas fa-comments game-icon"></i>Dialogue Practice</a>
+            </div>
+        </div>
+
+        <!-- Unit 23 -->
+        <div class="unit">
+            <div>
+                <div class="zodiac-box"><span>23</span><i class="fas fa-comments theme-icon" style="top:8px;right:8px;"></i></div>
+                <a href="units/UNIT 23/full.html"><i class="fas fa-comments unit-icon"></i>Unit 23: Hanging Out</a>
+                <p>Đi chơi với bạn bè</p>
+                <div class="vocabulary"><i class="fas fa-book vocab-icon"></i><a href="units/UNIT 23/vocabulary.html">VOCABULARY</a></div>
+            </div>
+            <div class="game-section">
+                <a href="units/UNIT 23/game.html" class="game-link"><i class="fas fa-comments game-icon"></i>Game</a>
+                <a href="units/UNIT 23/dialogue.html" class="dialogue-link"><i class="fas fa-comments game-icon"></i>Dialogue Practice</a>
+            </div>
+        </div>
+
+        <!-- Unit 24 -->
+        <div class="unit">
+            <div>
+                <div class="zodiac-box"><span>24</span><i class="fas fa-glass-cheers theme-icon" style="top:8px;right:8px;"></i></div>
+                <a href="units/UNIT 24/full.html"><i class="fas fa-glass-cheers unit-icon"></i>Unit 24: At the Party</a>
+                <p>Tại bữa tiệc</p>
+                <div class="vocabulary"><i class="fas fa-book vocab-icon"></i><a href="units/UNIT 24/vocabulary.html">VOCABULARY</a></div>
+            </div>
+            <div class="game-section">
+                <a href="units/UNIT 24/game.html" class="game-link"><i class="fas fa-glass-cheers game-icon"></i>Game</a>
+                <a href="units/UNIT 24/dialogue.html" class="dialogue-link"><i class="fas fa-comments game-icon"></i>Dialogue Practice</a>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<script>
+    const navToggle = document.querySelector('.nav-toggle');
+    const navLinks = document.querySelector('.nav-links');
+    navToggle.addEventListener('click', () => {
+        navToggle.classList.toggle('open');
+        navLinks.classList.toggle('open');
+    });
+</script>
+</body>
+</html>

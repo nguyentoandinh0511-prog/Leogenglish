@@ -1,463 +1,168 @@
-<!DOCTYPE html> 
-<!-- Deployed on 2026 -->
+<!DOCTYPE html>
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Leo English - Trung Tâm Tiếng Anh Chuyên Nghiệp</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Montserrat:wght@700&display=swap" rel="stylesheet">
+    <title>LEO ENGLISH HUB - Level Starter</title>
+    
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+    <link rel="preconnect" href="https://clerk.com" crossorigin>
+    <link rel="dns-prefetch" href="https://cdn.jsdelivr.net">
+    <link rel="dns-prefetch" href="https://clerk.com">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Montserrat:wght@700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/@clerk/clerk-js@latest/dist/clerk.browser.js"></script>
+    
+    <script async crossorigin="anonymous" 
+            data-clerk-publishable-key="pk_live_Y2xlcmsubGVvZW5nbGlzaC5wcm8udm4k"
+            src="https://cdn.jsdelivr.net/npm/@clerk/clerk-js@5/dist/clerk.browser.js">
+    </script>
+
     <style>
         :root {
-            --primary: #FFD700;
-            --secondary: #FF8C00;
-            --accent: #FFF9E6;
-            --dark: #2C2C2C;
+            --primary: #A4DE02;
+            --secondary: #76BA1B;
+            --text-primary: #1E3500;
+            --bg1: #F4FCD9;
+            --bg2: #E5F993;
+            --bg3: #FFFDE7;
         }
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+
         body {
+            margin: 0; min-height: 100vh;
+            background: linear-gradient(135deg, var(--bg1), var(--bg2), var(--bg3));
             font-family: 'Poppins', sans-serif;
-            background: linear-gradient(135deg, #FFF9E6, #FFE4B5, #FFFFFF);
-            color: #000;
-            overflow-x: hidden;
-            min-height: 100vh;
-        }
-        .container {
-            max-width: 1280px;
-            margin: 0 auto;
-            padding: 0 20px;
+            color: var(--text-primary);
         }
 
-        /* Navbar */
+        .container { max-width: 1300px; margin: 0 auto; padding: 20px; }
+
         nav {
-            background: linear-gradient(135deg, #FFD700, #FF8C00);
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
             padding: 15px 30px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-radius: 20px;
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
-            margin: 15px auto;
-            position: sticky;
-            top: 10px;
-            z-index: 1000;
-        }
-        .logo {
-            font-family: 'Montserrat', sans-serif;
-            font-size: 28px;
-            font-weight: 700;
-            color: white;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-        .nav-links {
-            display: flex;
-            gap: 2rem;
-            align-items: center;
-        }
-        .nav-links a {
-            color: white;
-            text-decoration: none;
-            font-weight: 600;
-            transition: all 0.3s;
-        }
-        .nav-links a:hover {
-            color: #FFF9E6;
-            transform: translateY(-2px);
-        }
-        .user-info {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            color: white;
-            font-weight: 500;
+            display: flex; justify-content: space-between; align-items: center;
+            border-radius: 15px; box-shadow: 0 8px 16px rgba(30,53,0,0.15);
+            margin-bottom: 25px; position: sticky; top: 6px; z-index: 1000;
         }
 
-        /* Hero Section */
-        .hero {
-            display: flex;
-            align-items: center;
-            gap: 60px;
-            padding: 80px 0;
-            flex-wrap: wrap;
+        .logo { font-family: 'Montserrat', sans-serif; font-weight: 900; font-size: 26px; color: white; display: flex; align-items: center; gap: 10px; }
+
+        .main-content {
+            background: linear-gradient(135deg, var(--bg1), var(--bg2), var(--bg3));
+            padding: 3rem 2.5rem; border-radius: 25px;
+            border: 4px solid var(--primary); box-shadow: 0 15px 35px rgba(30,53,0,0.2);
+            position: relative; min-height: 650px;
         }
-        .avatar-container {
-            position: relative;
-            width: 320px;
-            height: 320px;
-            margin: 0 auto;
-        }
-        .avatar {
-            width: 320px;
-            height: 320px;
+
+        .loading { text-align: center; padding: 120px 20px; }
+        .spinner {
+            width: 56px; height: 56px;
+            border: 6px solid #f0f0f0;
+            border-top: 6px solid var(--primary);
             border-radius: 50%;
-            border: 12px solid var(--primary);
-            box-shadow: 0 0 60px rgba(255, 215, 0, 0.6),
-                        inset 0 0 40px rgba(255, 255, 255, 0.8);
-            background: url('ava.png') center/cover;
-            position: relative;
-            z-index: 2;
-            transition: transform 0.4s;
+            animation: spin 0.9s linear infinite;
+            margin: 0 auto 25px;
         }
-        .avatar:hover {
-            transform: scale(1.05);
-        }
-        .glow-ring {
-            position: absolute;
-            top: -30px;
-            left: -30px;
-            right: -30px;
-            bottom: -30px;
-            border-radius: 50%;
-            background: conic-gradient(transparent, #FFD700, #FF8C00, transparent);
-            animation: rotate-glow 8s linear infinite;
-            z-index: 1;
-            filter: blur(20px);
-            opacity: 0.7;
-        }
-        @keyframes rotate-glow {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
+        @keyframes spin { to { transform: rotate(360deg); } }
 
-        .hero-content {
-            flex: 1;
-            min-width: 300px;
-        }
-        .hero-content h1 {
-            font-family: 'Montserrat', sans-serif;
-            font-size: 3.5rem;
-            font-weight: 700;
-            color: var(--dark);
-            margin-bottom: 1rem;
-            line-height: 1.1;
-        }
-        .hero-content p {
-            font-size: 1.3rem;
-            color: #444;
-            margin-bottom: 2rem;
-        }
-
-        /* Levels Section */
-        .levels {
-            padding: 80px 0;
-        }
-        .section-title {
-            text-align: center;
-            font-size: 2.8rem;
-            font-weight: 700;
-            margin-bottom: 1rem;
-            color: var(--dark);
-        }
-        .section-subtitle {
-            text-align: center;
-            font-size: 1.4rem;
-            color: #555;
-            margin-bottom: 3rem;
-        }
-        .levels-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 30px;
-        }
-        .level-card {
-            background: white;
-            border-radius: 24px;
-            overflow: hidden;
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            position: relative;
-            text-decoration: none;
-            color: inherit;
-            display: block;
-        }
-        .level-card:hover {
-            transform: translateY(-15px) scale(1.03);
-            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
-        }
-        .level-header {
-            padding: 2rem 1.5rem;
-            text-align: center;
-            color: white;
-            font-weight: 700;
-            font-size: 1.6rem;
-        }
-        .level-starter .level-header { background: linear-gradient(135deg, #4ADE80, #22C55E); }
-        .level-beginner .level-header { background: linear-gradient(135deg, #60A5FA, #3B82F6); }
-        .level-pre .level-header { background: linear-gradient(135deg, #A78BFA, #7C3AED); }
-        .level-inter .level-header { background: linear-gradient(135deg, #FB923C, #F97316); }
-
-        .level-body {
-            padding: 2rem;
-            text-align: center;
-        }
-        .level-body h3 {
-            font-size: 1.4rem;
-            margin-bottom: 1rem;
-            color: #333;
-        }
-        .level-body p {
-            color: #666;
-            line-height: 1.6;
-        }
-        .level-units {
-            margin-top: 1.5rem;
-            font-size: 0.95rem;
-            color: var(--secondary);
-            font-weight: 600;
-        }
-
-        /* Action Buttons */
-        .actions {
-            padding: 60px 0;
-            background: rgba(255, 215, 0, 0.15);
-            border-radius: 30px;
+        #clerk-auth-ui {
+            max-width: 420px;
             margin: 40px auto;
-        }
-        .action-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-            gap: 25px;
-        }
-        .action-btn {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 12px;
-            padding: 20px 30px;
-            border-radius: 20px;
-            font-size: 1.2rem;
-            font-weight: 600;
-            text-decoration: none;
-            transition: all 0.3s;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-        }
-        .action-btn:hover {
-            transform: translateY(-8px);
-        }
-        .btn-register { background: linear-gradient(135deg, #22C55E, #4ADE80); color: white; }
-        .btn-software { background: linear-gradient(135deg, #3B82F6, #60A5FA); color: white; }
-        .btn-zalo { background: linear-gradient(135deg, #22C55E, #15803D); color: white; }
-
-        /* Fireflies */
-        .firefly {
-            position: fixed;
-            background: radial-gradient(circle, #FFD700 20%, #FF8C00 70%, transparent);
-            border-radius: 50%;
-            box-shadow: 0 0 15px #FFD700;
-            pointer-events: none;
-            z-index: 9999;
-            animation: firefly-rise linear infinite;
-        }
-        @keyframes firefly-rise {
-            0% { transform: translateY(100vh) scale(0.6); opacity: 0.9; }
-            100% { transform: translateY(-100px) scale(1.2); opacity: 0; }
+            padding: 20px;
         }
 
-        footer {
-            background: var(--dark);
-            color: white;
-            padding: 40px 0;
-            text-align: center;
+        @media (max-width: 768px) {
+            .main-content { padding: 2rem 1rem; }
+            #clerk-auth-ui { max-width: 100%; padding: 15px 10px; margin: 20px auto; }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <!-- Navbar -->
         <nav>
-            <div class="logo">
-                <i class="fas fa-graduation-cap"></i>
-                LEO ENGLISH
-            </div>
+            <div class="logo"><i class="fas fa-seedling"></i> LEO ENGLISH HUB</div>
             <div class="nav-links">
-                <a href="#">Trang chủ</a>
-                <a href="#">Giới thiệu</a>
-                <a href="#levels">Chương trình học</a>
-                <a href="#">Tin tức</a>
-                <a href="#">Liên hệ</a>
-            </div>
-            <div id="user-section" class="user-info">
-                <button onclick="handleLogin()" style="background: white; color: #FF8C00; border: none; padding: 10px 20px; border-radius: 30px; font-weight: 600; cursor: pointer;">
-                    <i class="fas fa-sign-in-alt"></i> Đăng nhập
-                </button>
+                <a href="#" onclick="handleLogout()" id="logout-btn" style="display:none;">Đăng Xuất</a>
             </div>
         </nav>
 
-        <!-- Hero -->
-        <div class="hero">
-            <div class="avatar-container">
-                <div class="glow-ring"></div>
-                <div class="avatar"></div>
+        <div class="main-content" id="main-content">
+            <!-- Loading -->
+            <div id="loading-screen" class="loading">
+                <div class="spinner"></div>
+                <p>Đang tải...</p>
             </div>
-            <div class="hero-content">
-                <h1>Chào mừng đến với<br>Leo English</h1>
-                <p>Trung tâm tiếng Anh hiện đại với chương trình học theo cấp độ rõ ràng, phương pháp tương tác và giáo viên giàu kinh nghiệm.</p>
-                <button onclick="document.getElementById('levels').scrollIntoView({ behavior: 'smooth' })" 
-                        style="background: linear-gradient(135deg, #FFD700, #FF8C00); color: white; border: none; padding: 18px 40px; font-size: 1.3rem; border-radius: 50px; cursor: pointer; box-shadow: 0 10px 30px rgba(255,140,0,0.4);">
-                    Khám phá các cấp độ
-                </button>
-            </div>
-        </div>
 
-        <!-- Levels -->
-        <section id="levels" class="levels">
-            <h2 class="section-title">Learning Program by Level</h2>
-            <p class="section-subtitle">Chương Trình Học Theo Cấp Độ</p>
-            
-            <div class="levels-grid">
-                <!-- Starter -->
-                <a href="LEVEL STARTER/index.html" class="level-card level-starter">
-                    <div class="level-header">
-                        <i class="fas fa-seedling"></i> STARTER
-                    </div>
-                    <div class="level-body">
-                        <h3>Cơ bản tuyệt đối</h3>
-                        <p>Dành cho người mới bắt đầu hoàn toàn. Xây dựng nền tảng phát âm, từ vựng và câu đơn giản.</p>
-                        <div class="level-units">24 Units • 60+ Bài học</div>
-                    </div>
-                </a>
-
-                <!-- Beginner -->
-                <a href="LEVEL BEGINNER/index.html" class="level-card level-beginner">
-                    <div class="level-header">
-                        <i class="fas fa-baby"></i> BEGINNER
-                    </div>
-                    <div class="level-body">
-                        <h3>Mới bắt đầu</h3>
-                        <p>Phát triển kỹ năng giao tiếp cơ bản trong các tình huống hàng ngày.</p>
-                        <div class="level-units">24 Units • 80+ Bài học</div>
-                    </div>
-                </a>
-
-                <!-- Pre-Intermediate -->
-                <a href="LEVEL PRE-INTERMEDIATE/index.html" class="level-card level-pre">
-                    <div class="level-header">
-                        <i class="fas fa-chart-line"></i> PRE-INTERMEDIATE
-                    </div>
-                    <div class="level-body">
-                        <h3>Tiền trung cấp</h3>
-                        <p>Củng cố ngữ pháp và tăng vốn từ vựng để giao tiếp tự tin hơn.</p>
-                        <div class="level-units">24 Units • 100+ Bài học</div>
-                    </div>
-                </a>
-
-                <!-- Intermediate -->
-                <a href="LEVEL INTERMEDIATE/index.html" class="level-card level-inter">
-                    <div class="level-header">
-                        <i class="fas fa-trophy"></i> INTERMEDIATE
-                    </div>
-                    <div class="level-body">
-                        <h3>Trung cấp</h3>
-                        <p>Hoàn thiện kỹ năng, giao tiếp lưu loát và chuẩn bị cho kỳ thi quốc tế.</p>
-                        <div class="level-units">24 Units • 120+ Bài học</div>
-                    </div>
-                </a>
-            </div>
-        </section>
-
-        <!-- Actions -->
-        <div class="actions">
-            <div class="container">
-                <div class="action-grid">
-                    <a href="#" onclick="alert('Chức năng ghi danh đang được kích hoạt! Vui lòng liên hệ Zalo.')" class="action-btn btn-register">
-                        <i class="fas fa-user-plus"></i>
-                        GHI DANH KHÓA HỌC
-                    </a>
-                    <a href="#" onclick="alert('Phần mềm học tương tác Leo English sẽ sớm ra mắt!')" class="action-btn btn-software">
-                        <i class="fas fa-laptop-code"></i>
-                        MUA PHẦN MỀM HỌC
-                    </a>
-                    <a href="https://zalo.me/" target="_blank" class="action-btn btn-zalo">
-                        <i class="fab fa-whatsapp"></i>
-                        TƯ VẤN QUA ZALO
-                    </a>
-                </div>
-            </div>
+            <!-- Clerk Auth -->
+            <div id="clerk-auth-ui" style="display:none;"></div>
         </div>
     </div>
 
-    <footer>
-        <div class="container">
-            <p>&copy; 2026 Leo English. All rights reserved.</p>
-            <p>Hotline: 0799713094 | Email: genwise.languagehub@gmail.com</p>
-        </div>
-    </footer>
-
     <script>
-        let clerk;
-        
         async function initClerk() {
+            const loading = document.getElementById('loading-screen');
+            const authUI = document.getElementById('clerk-auth-ui');
+
             try {
-                clerk = new Clerk('pk_live_Y2xlcmsubGVvZW5nbGlzaC5wcm8udm4k');
-                await clerk.load();
-                updateUI();
-            } catch(e) {
-                console.log("Clerk init error (demo mode)", e);
+                if (!window.Clerk) {
+                    await new Promise((resolve, reject) => {
+                        let attempts = 0;
+                        const interval = setInterval(() => {
+                            attempts++;
+                            if (window.Clerk) {
+                                clearInterval(interval);
+                                resolve();
+                            } else if (attempts > 60) {
+                                clearInterval(interval);
+                                reject();
+                            }
+                        }, 100);
+                    });
+                }
+
+                await window.Clerk.load();
+
+                loading.style.display = 'none';
+                authUI.style.display = 'block';
+
+                window.Clerk.mountSignIn(authUI, {
+                    afterSignInUrl: window.location.href,
+                    afterSignUpUrl: window.location.href,
+                    appearance: { 
+                        baseTheme: 'light', 
+                        variables: { colorPrimary: '#A4DE02' },
+                        layout: { socialButtonsVariant: 'iconButton' }
+                    }
+                });
+
+                // === PHẦN QUAN TRỌNG: Chuyển hướng sau khi đăng nhập ===
+                window.Clerk.addListener(({ user }) => {
+                    if (user) {
+                        // Chuyển thẳng sang trang chủ 24 bài
+                        window.location.href = "trang chu 24 bai.html";
+                    }
+                });
+
+            } catch (e) {
+                console.error(e);
+                loading.innerHTML = `
+                    <p style="color:#d32f2f; font-size:1.1rem;">
+                        ⚠️ Tải chậm do kết nối.<br><br>
+                        <button onclick="window.location.reload()" 
+                                style="padding:14px 32px; background:#A4DE02; color:white; border:none; 
+                                       border-radius:12px; font-size:16px; cursor:pointer;">
+                            🔄 Tải lại trang
+                        </button>
+                    </p>`;
             }
         }
 
-        function updateUI() {
-            const userSection = document.getElementById('user-section');
-            if (clerk && clerk.user) {
-                userSection.innerHTML = `
-                    <span>Xin chào, ${clerk.user.firstName || 'Học viên'}</span>
-                    <button onclick="clerk.signOut()" style="background: #FF8C00; color: white; border: none; padding: 8px 18px; border-radius: 30px; cursor: pointer;">Đăng xuất</button>
-                `;
-            }
+        function handleLogout() {
+            if (window.Clerk) window.Clerk.signOut();
         }
 
-        async function handleLogin() {
-            if (!clerk) {
-                alert("Demo: Đăng nhập thành công.");
-                const userSection = document.getElementById('user-section');
-                userSection.innerHTML = `
-                    <span>Xin chào, Học viên</span>
-                    <button onclick="logoutDemo()" style="background: #FF8C00; color: white; border: none; padding: 8px 18px; border-radius: 30px; cursor: pointer;">Đăng xuất</button>
-                `;
-                return;
-            }
-            await clerk.openSignIn();
-        }
-
-        function logoutDemo() {
-            const userSection = document.getElementById('user-section');
-            userSection.innerHTML = `<button onclick="handleLogin()" style="background: white; color: #FF8C00; border: none; padding: 10px 20px; border-radius: 30px; font-weight: 600; cursor: pointer;"><i class="fas fa-sign-in-alt"></i> Đăng nhập</button>`;
-        }
-
-        // Hiệu ứng đom đóm
-        function createFireflies() {
-            const container = document.body;
-            for (let i = 0; i < 25; i++) {
-                const fly = document.createElement('div');
-                fly.className = 'firefly';
-                
-                const size = 4 + Math.random() * 8;
-                fly.style.width = `${size}px`;
-                fly.style.height = `${size}px`;
-                
-                fly.style.left = Math.random() * 100 + 'vw';
-                fly.style.bottom = '-20px';
-                fly.style.opacity = 0.6 + Math.random() * 0.4;
-                
-                const duration = 12 + Math.random() * 18;
-                fly.style.animationDuration = `${duration}s`;
-                fly.style.animationDelay = `-${Math.random() * 15}s`;
-                
-                container.appendChild(fly);
-            }
-        }
-
-        window.onload = function() {
-            initClerk();
-            createFireflies();
-        };
+        // Khởi chạy
+        window.addEventListener('load', initClerk);
     </script>
 </body>
 </html>
