@@ -1,0 +1,27 @@
+﻿{
+  \"name\": \"Leo English\",
+  \"short_name\": \"LEO English\",
+  \"description\": \"Trung tâm Tiếng Anh Leo English\",
+  \"start_url\": \"/\",
+  \"display\": \"standalone\",
+  \"background_color\": \"#050816\",
+  \"theme_color\": \"#4F46E5\",
+  \"orientation\": \"portrait-primary\",
+  \"icons\": [
+    {
+      \"src\": \"icons/icon-192x192.png\",
+      \"sizes\": \"192x192\",
+      \"type\": \"image/png\"
+    },
+    {
+      \"src\": \"icons/icon-512x512.png\",
+      \"sizes\": \"512x512\",
+      \"type\": \"image/png\"
+    },
+    {
+      \"src\": \"icons/apple-touch-icon.png\",
+      \"sizes\": \"180x180\",
+      \"type\": \"image/png\"
+    }
+  ]
+}
